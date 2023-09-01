@@ -1,0 +1,25 @@
+{
+    "VMBox": "generic/oracle9",
+    "VMProvider": "virtualbox",
+    "controlNodes": {
+        "numNodes": 1,
+        "namePrefix": "control",
+        "ram": 2048,
+        "cpus": 2
+    },    
+    "workerNodes": {
+        "numNodes": 1,
+        "namePrefix": "ansible",
+        "ram": 2048,
+        "cpus": 2
+    },
+    "network": {
+        "hostsNetwork": "192.168.100.",
+        "controlNodesIpStart": 1, 
+        "workerNodesIpStart": 10   
+    },
+    "ansible": {
+        "user": "ansible",
+        "password": "password"
+    }
+}
