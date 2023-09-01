@@ -1,4 +1,7 @@
 # Set of scripts for deploying local Ansible-managed environment for tests
+
+Creates multiple vms (control and managed nodes) locally. Vms are hosted on Oracle VirtualBox. All machines are pre-configured for Ansible. 
+
 ## Software
 1. Oracle VirtualBox 7.0.10
 2. Hashicorp Vagrant 2.3.7
