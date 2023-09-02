@@ -81,6 +81,10 @@ Vagrant.configure("2") do |config|
         v.cpus = CONTROL_NODE_CPUS
         
       end
+
+      # Mount Ansible project directory into control node. Permissions are assigned in advance to UID/GID for Ansible user created later while provisioning
+      node.vm.synced_folder "projects/", "/ansible", owner: '1234', group: '1234', mount_options: ["dmode=755", "fmode=755"]
+
       # Configure network
       node.vm.hostname = "#{CONTROL_NODE_NAME_PREFIX}-0#{i}"
       node.vm.network :private_network, ip: HOSTS_NETWORK + "#{CONTROL_NODES_IP_START + i}"
@@ -93,10 +97,6 @@ Vagrant.configure("2") do |config|
     
       # Install Ansible
       node.vm.provision "install_ansible", :type => "shell", :path => "scripts/install-ansible.sh"  
-
-      # Generate ssh key for ansible user
-      node.vm.provision "create-ssh-key", :type => "shell", :path => "scripts/configure-ssh.sh", :args => [ANSIBLE_USER_NAME, ANSIBLE_USER_PASSWORD, "/scripts/hosts.tmp"]
-    
     end
   end
 end
