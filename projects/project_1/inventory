@@ -1,0 +1,9 @@
+[app]
+ansible-01
+
+[db]
+ansible-02
+
+[servers:children]
+app
+db
