@@ -1,0 +1,32 @@
+---
+- name: install httpd
+  hosts: ansible-01
+  tasks:
+    - name: install package
+      package:
+        name: httpd
+        state: present
+    - name: create index file
+      copy:
+        content: "Weclome here!"
+        dest: /var/www/html/index.html
+    - name: start httpd service
+      service:
+        name: httpd
+        state: started
+        enabled: true
+    - name: configure firewall
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+        immediate: true
+
+- name: test access
+  hosts: localhost
+  tasks:
+    - name: connect to web server
+      uri:
+        url: http://ansible-01
+        return_content: yes
+        status_code: 200

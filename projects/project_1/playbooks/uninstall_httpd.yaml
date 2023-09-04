@@ -1,0 +1,21 @@
+---
+- name: uninstall httpd
+  hosts: ansible-01
+  tasks:
+    - name: configure firewall
+      firewalld:
+        service: http
+        permanent: yes
+        state: disabled
+        immediate: true
+    - name: remove index file
+      file:
+        state: absent
+        path: /var/www/html/index.html
+    - name: remove package
+      package:
+        name: httpd
+        state: absent
+
+
+

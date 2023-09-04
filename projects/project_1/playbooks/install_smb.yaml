@@ -1,0 +1,28 @@
+---
+- name: install custom facts
+  hosts: ansible-02
+  vars: 
+    remote_dir: /etc/ansible/facts.d
+    facts_file: localfacts.fact
+  tasks:
+    - name: create facts dir
+      file:
+        state: directory
+        recurse: yes
+        path: "{{ remote_dir }}"
+    - name: copy file
+      copy:
+        src: "../facts/{{ facts_file }}"
+        dest: "{{ remote_dir }}"
+
+- name: install smb and start
+  hosts: ansible-02
+  tasks:
+    - name: install smb
+      yum:
+        name: "{{ ansible_local.localfacts.localfacts.package }}"
+    - name: start
+      service:
+        name: "{{ ansible_local.localfacts.localfacts.service }}"
+        state: "{{ ansible_local.localfacts.localfacts.state }}"
+

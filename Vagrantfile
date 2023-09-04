@@ -97,6 +97,9 @@ Vagrant.configure("2") do |config|
     
       # Install Ansible
       node.vm.provision "install_ansible", :type => "shell", :path => "scripts/install-ansible.sh"  
+
+      # Generate ssh key for ansible user
+      node.vm.provision "configure-ssh", :type => "shell", :path => "scripts/configure-ssh.sh", :args => [ANSIBLE_USER_NAME, ANSIBLE_USER_PASSWORD, "/scripts/hosts.tmp"]
     end
   end
 end
