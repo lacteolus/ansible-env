@@ -1,0 +1,37 @@
+---
+- name: install db
+  hosts: ansible-01
+
+  vars:
+    db_packages:
+      - mariadb-server
+      - python3-PyMySQL
+
+  tasks:
+    - name: show distribution info
+      debug:
+        var: ansible_distribution
+    - name: show version info
+      debug:
+        var: ansible_distribution_major_version
+    - name: install db
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ db_packages }}"
+      when: ansible_distribution == "OracleLinux" and ansible_distribution_major_version == "9"
+    - name: start service
+      service:
+        name: mariadb
+        state: started
+        enabled: true
+      notify:
+        - set db pass
+
+  handlers:
+    - name: set db pass
+      mysql_user:
+        state: present
+        login_unix_socket: /var/lib/mysql/mysql.sock
+        name: root
+        password: password
